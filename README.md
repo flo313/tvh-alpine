@@ -1,13 +1,20 @@
-# tvh-alpine
+# Image
+[![](https://images.microbadger.com/badges/image/tunip/tvheadend.svg)](https://microbadger.com/images/tunip/tvheadend "Get your own image badge on microbadger.com")
+
+# About
+![Tvheadend](https://github.com/tunip/docker-tvheadend/raw/master/tvheadend.png)
 
 Tvheadend (stable) based on Alpine Linux with libav for transcoding.
 
-Volumes
+# Volumes
+```
 /config
 /data
 /recordings
-
-Usage
+ ```
+ 
+# Usage
+```
 docker run -d --name="tvheadend" \
     -v /mnt/cache/appdata/tvheadend/config:/config \
     -v /mnt/cache/appdata/tvheadend/data:/data \
@@ -16,3 +23,4 @@ docker run -d --name="tvheadend" \
     -p 9982:9982 \
     --device /dev/dvb \
     tunip/tvheadend
+```
