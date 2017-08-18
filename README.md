@@ -1,5 +1,5 @@
 # About
-![Tvheadend](https://github.com/tunip/docker-tvheadend/raw/master/tvheadend.png)
+![Tvheadend](https://github.com/flo313/tvh-alpine/blob/master/logoTvheadend.png)
 
 Tvheadend (stable-master branch) based on Alpine Linux with libav for transcoding.
 
