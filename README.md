@@ -26,3 +26,14 @@ docker run -d --name="tvheadend" \
     --device /dev/dvb \
     flo313/tvh-alpine
 ```
+# Hdhomerun or IPTV cases
+```
+To be able to use Hdhomerun or IPTV features, --net="host" argument must be use. (unavailable with a Docker4Windows installation)
+docker run -d --name="tvheadend" \
+    -v /path/to/config:/config \
+    -v /path/to/data:/data \
+    -v /path/to/recordings:/recordings \
+    --net="host"
+    --device /dev/dvb \
+    flo313/tvh-alpine
+```
