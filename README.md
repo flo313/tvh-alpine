@@ -6,7 +6,6 @@ Tvheadend (stable-master branch) based on Alpine Linux with libav for transcodin
 # Volumes
 ```
 /config
-/data
 /recordings
  ```
 # Ports
@@ -19,21 +18,25 @@ Tvheadend (stable-master branch) based on Alpine Linux with libav for transcodin
 ```
 docker run -d --name="tvheadend" \
     -v /path/to/config:/config \
-    -v /path/to/data:/data \
     -v /path/to/recordings:/recordings \
     -p 9981:9981 \
     -p 9982:9982 \
-    --device /dev/dvb \
+    --device /dev/dvb/adapter0 \
     flo313/tvh-alpine
 ```
-# Hdhomerun or IPTV cases
+# Hdhomerun or IPTV specific cases
 ```
-To be able to use Hdhomerun or IPTV features, --net="host" argument must be use. (unavailable with a Docker4Windows installation)
+To be able to use Hdhomerun or IPTV features,
+--net="host" argument must be use instead of standard port binding.
+(unavailable with a Docker4Windows installation)
+
+To acces to the container service then,
+simply access to the exposed port: http://DOCKERHOSTIP:9981
+
 docker run -d --name="tvheadend" \
     -v /path/to/config:/config \
-    -v /path/to/data:/data \
     -v /path/to/recordings:/recordings \
-    --net="host"
-    --device /dev/dvb \
+    --net="host" \
+    --device /dev/dvb/adapter0 \
     flo313/tvh-alpine
 ```
