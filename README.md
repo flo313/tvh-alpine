@@ -31,7 +31,7 @@ To be able to use Hdhomerun or IPTV features,
 (unavailable with a Docker4Windows installation)
 
 To acces to the container service then,
-simply access to the exposed port: http://DOCKERHOSTIP:9981
+simply access to the exposed port: http://DOCKERHOSTIP:9981/tvheadend
 
 docker run -d --name="tvheadend" \
     -v /path/to/config:/config \
