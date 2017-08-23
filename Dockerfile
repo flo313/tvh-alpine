@@ -80,4 +80,4 @@ EXPOSE 9981 9982
 
 ENTRYPOINT ["/usr/bin/tvheadend"]
 # CMD ["--firstrun", "-u", "root", "-g", "root", "-c", "/config"] 
-CMD ["--firstrun", "-c", "/config","--http_root","/tvheadend/"]
+CMD ["--firstrun", "-u", "root", "-g", "root", "-c", "/config","--http_root","/tvheadend/"]
