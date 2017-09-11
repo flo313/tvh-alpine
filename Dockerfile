@@ -5,7 +5,19 @@ RUN apk add --no-cache \
 	ca-certificates \
 	coreutils \
 	libhdhomerun \
-	tzdata && \
+	tzdata \
+# Install runtime packages
+	bzip2 \
+	curl \
+	ffmpeg-libs \
+	ffmpeg \
+	gettext \
+	gzip \
+	python \
+	socat \
+	tar \
+	uriparser \
+	zlib && \
 
 # Create user
 adduser -H -D -S -u 99 -G users -s /sbin/nologin duser && \
@@ -25,46 +37,21 @@ apk add --no-cache --virtual=build-dependencies \
 	git \
 	g++ \
 	libressl-dev \
+	libvpx-dev \
 	linux-headers \
 	make \
+	opus-dev \
 	tar \
 	uriparser-dev \
 	wget \
+	x264-dev \
+	x265-dev \
 	zlib-dev && \
-
-# Install runtime packages
-apk add --no-cache \
-	bzip2 \
-	curl \
-	ffmpeg-libs \
-	ffmpeg \
-	gettext \
-	gzip \
-	python \
-	socat \
-	tar \
-	uriparser \
-	zlib && \
 
 # Build tvheadend
 git clone -b master https://github.com/tvheadend/tvheadend.git /tmp/tvheadend && \
 	cd /tmp/tvheadend && \
-	./configure \
-		--disable-avahi \
-		--disable-ffmpeg_static \
-		--disable-libfdkaac_static \
-		--disable-libmfx_static \
-		--disable-libtheora_static \
-		--disable-libvorbis_static \
-		--disable-libvpx_static \
-		--disable-libx264_static \
-		--disable-libx265_static \
-		--enable-libav \
-		--infodir=/usr/share/info \
-		--localstatedir=/var \
-		--mandir=/usr/share/man \
-		--prefix=/usr \
-		--sysconfdir=/config && \
+	./configure --disable-avahi --disable-ffmpeg_static --disable-libfdkaac_static --disable-libmfx_static --disable-libtheora_static --disable-libvorbis_static --disable-libvpx_static --disable-libx264_static --disable-libx265_static --enable-libav --infodir=/usr/share/info --localstatedir=/var --mandir=/usr/share/man --prefix=/usr --sysconfdir=/config && \
 	make && \
 	make install && \
 
@@ -79,5 +66,4 @@ VOLUME /config /recordings
 EXPOSE 9981 9982
 
 ENTRYPOINT ["/usr/bin/tvheadend"]
-# CMD ["--firstrun", "-u", "root", "-g", "root", "-c", "/config"] 
 CMD ["--firstrun", "-u", "root", "-g", "root", "-c", "/config","--http_root","/tvheadend/"]
