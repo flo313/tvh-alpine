@@ -1,9 +1,15 @@
 FROM alpine:edge
 
+ENV USER_NAME="tvheadend" \
+	USER_ID="1000" \
+	CONFIG_DIR="/config" \
+	RECORD_DIR="/recordings"
+
 # Install core packages
 RUN apk add --no-cache \
 	ca-certificates \
 	coreutils \
+	bash \
 	libhdhomerun \
 	tzdata \
 # Install runtime packages
@@ -18,11 +24,6 @@ RUN apk add --no-cache \
 	tar \
 	uriparser \
 	zlib && \
-
-# Create user
-adduser -H -D -S -u 99 -G users -s /sbin/nologin duser && \
-adduser duser video && \
-
 # Install build packages
 apk add --no-cache --virtual=build-dependencies \
 	bash \
@@ -47,23 +48,23 @@ apk add --no-cache --virtual=build-dependencies \
 	x264-dev \
 	x265-dev \
 	zlib-dev && \
-
 # Build tvheadend
 git clone -b master https://github.com/tvheadend/tvheadend.git /tmp/tvheadend && \
 	cd /tmp/tvheadend && \
 	./configure --disable-avahi --disable-ffmpeg_static --disable-libfdkaac_static --disable-libmfx_static --disable-libtheora_static --disable-libvorbis_static --disable-libvpx_static --disable-libx264_static --disable-libx265_static --enable-libav --infodir=/usr/share/info --localstatedir=/var --mandir=/usr/share/man --prefix=/usr --sysconfdir=/config && \
 	make && \
 	make install && \
-
 # Cleanup
-apk del --purge build-dependencies ffmpeg-dev && \
-rm -rf /var/cache/apk/* /tmp/*
+	apk del --purge build-dependencies ffmpeg-dev && \
+	rm -rf /var/cache/apk/* /tmp/*
+
+ADD start_tvh.sh /start_tvh.sh
+RUN chmod +x /start_tvh.sh
 
 # Expose 'config' and 'recordings' directory for persistence
-VOLUME /config /recordings
+VOLUME ["$CONFIG_DIR","$RECORD_DIR"]
 
 # Expose ports for 'web interface' and 'streaming'
 EXPOSE 9981 9982
 
-ENTRYPOINT ["/usr/bin/tvheadend"]
-CMD ["--firstrun", "-u", "root", "-g", "root", "-c", "/config","--http_root","/tvheadend/"]
+ENTRYPOINT ["/start_tvh.sh"]
