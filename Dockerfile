@@ -10,6 +10,7 @@ RUN apk add --no-cache \
 	ca-certificates \
 	coreutils \
 	bash \
+	sudo \
 	libhdhomerun \
 	tzdata \
 # Install runtime packages
@@ -26,7 +27,6 @@ RUN apk add --no-cache \
 	zlib && \
 # Install build packages
 apk add --no-cache --virtual=build-dependencies \
-	bash \
 	bsd-compat-headers \
 	cmake \
 	curl \
