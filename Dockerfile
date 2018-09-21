@@ -67,4 +67,4 @@ VOLUME ["$CONFIG_DIR","$RECORD_DIR"]
 # Expose ports for 'web interface' and 'streaming'
 EXPOSE 9981 9982
 
-ENTRYPOINT ["/start_tvh.sh"]
+CMD ["/start_tvh.sh"]
