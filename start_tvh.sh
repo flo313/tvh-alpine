@@ -16,6 +16,13 @@ if sudo su - $USER_NAME -c "[[ -w $CONFIG_DIR ]]" ; then
   echo "$(ts)    Check '$RECORD_DIR'..."
   if sudo su - $USER_NAME -c "[[ -w $RECORD_DIR ]]" ; then 
     echo "$(ts)    Write access to '$RECORD_DIR' -> OK"
+    echo "$(ts)    Check if '/dev/dvb' dir exists..."
+    if [ -d /dev/dvb ] ; then
+      echo "$(ts)    '/dev/dvb' exists, changing his owner ('chown -R ${USER_NAME} /dev/dvb')..."
+      chown -R ${USER_NAME} /dev/dvb
+    else
+      echo "$(ts)    '/dev/dvb' doesn't exists, skip dvb adapter configuration."
+    fi
     echo "$(ts) Starting Tvheadend with '$USER_NAME' user"
     /usr/bin/tvheadend --firstrun -u $USER_NAME -g $USER_NAME -c /config --http_root /tvheadend/
   else
